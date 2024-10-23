@@ -67,6 +67,34 @@ class FileDropWidget(QDialog):
         return self.file_path_edit.text()
 
 
+class TestPasswordStrength(unittest.TestCase):
+
+    def test_valid_passwords(self):
+        valid_passwords = [
+            "Password123!",
+            "StrongP@ssw0rd",
+            "Another1@Password",
+            "A1b2C3d4@",
+           # "hello"
+        ]
+        for password in valid_passwords:
+            self.assertTrue(is_strong_password(password), f"Failed for valid password: {password}")
+
+    def test_invalid_passwords(self):
+        invalid_passwords = [
+            "password",           # No uppercase letter
+            "PASSWORD",           # No lowercase letter
+            "Password",           # No digit
+            "Password123",        # No special character
+            "Pass1!",             # Less than 8 characters
+            "12345678!",          # No letter
+            "@@@@@@@@",           # No letter or digit
+            ]
+        for password in invalid_passwords:
+            self.assertFalse(is_strong_password(password), f"Failed for invalid password: {password}")
+
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
@@ -97,6 +125,7 @@ if __name__ == "__main__":
                         print("Путь к файлу не был указан.")
             elif method == 3:
                 print("Unit тестирование")
+                unittest.main(argv=[''], exit=False)
                 # Место для кода юнит тестов
 
             elif method == 4:
