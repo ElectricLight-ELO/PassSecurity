@@ -44,7 +44,7 @@ class FileDropWidget(QDialog):
 
         # Поле для отображения пути файла
         self.file_path_edit = QLineEdit(self)
-        self.file_path_edit.setPlaceholderText("Перетащите сюда файл или введите путь вручную")
+        self.file_path_edit.setPlaceholderText("Перетащите сюда файл")
         self.layout.addWidget(self.file_path_edit)
 
         # Кнопка для подтверждения выбора файла
@@ -83,6 +83,18 @@ if __name__ == "__main__":
                     else:
                         print("Invalid password")
             elif method == 2:
+                # Открываем виджет для выбора файла
+                file_dialog = FileDropWidget()
+                if file_dialog.exec() == QDialog.Accepted:
+                    # Получаем путь к файлу
+                    file_path = file_dialog.get_file_path()
+                    if file_path:
+                        print(f"Выбран файл: {file_path}")
+                        # Теперь можно использовать путь для проверки паролей
+                        good_pswd = check_passwords_from_file(file_path)
+                        print("Пароли проверены.")
+                    else:
+                        print("Путь к файлу не был указан.")
             elif method == 3:
                 print("Unit тестирование")
                 # Место для кода юнит тестов
